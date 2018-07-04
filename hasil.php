@@ -80,6 +80,14 @@ foreach($rows as $row){
         <td><?=$diagnosa[$key][cf]?></td>
     </tr>
     <?php endforeach;
+    $list = array();
+    foreach($rank as $key => $value) {
+        $hasil = array();
+        $hasil['nama_diagnosa'] = $diagnosa[$key][nama_diagnosa];
+        $hasil['kepercayaan'] = $diagnosa[$key][cf];
+        $hasil['solusi'] = $diagnosa[$key][solusi];
+        array_push($list, $hasil);
+    }
     reset($rank);
     $_SESSION[gejala] = $gejala;
     ?>

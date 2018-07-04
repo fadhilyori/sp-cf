@@ -10,7 +10,7 @@
         die("Koneksi gagal: " . mysqli_connect_error());
     }
     include "api/UserController.php";
-    include "api/KonsultasiController.php";
+//    include "api/KonsultasiController.php";
     include "api/DiagnosaController.php";
 
     $response = array();
@@ -54,6 +54,12 @@
             case 'updateGejala':
                 $result = updateGejala($db, $_POST['kode_gejala'], $_POST['nama_gejala'], $_POST['keterangan']);
                 $response["isSuccess"] = $result;
+                break;
+            case 'submitKonsultasi':
+                include 'config.php';
+                $isAPI = true;
+                include 'api/KonsultasiController.php';
+                $response = $list;
                 break;
         }
     }
