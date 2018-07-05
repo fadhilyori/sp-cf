@@ -1,5 +1,7 @@
 <?php
-$gejala = (array) $_POST[gejala];
+$gejala = $_POST['gejala'];
+$gejala = split(',', $gejala);
+$gejala_temp = $gejala;
 
 $rows = $db->get_results("SELECT * FROM cf_gejala WHERE kode_gejala IN ('".implode("','", $gejala)."')");
 $rows = $db->get_results("SELECT * 

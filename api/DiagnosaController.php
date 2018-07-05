@@ -20,13 +20,15 @@ function getAllListDiagnosa($db) {
 }
 
 function addDiagnosa($db, $kode_diagnosa, $nama_diagnosa, $keterangan) {
+    $list = array();
     if (mysqli_query($db, "INSERT INTO cf_diagnosa (kode_diagnosa, nama_diagnosa, keterangan) VALUES ('$kode_diagnosa', '$nama_diagnosa', '$keterangan')") == true) {
         $isSuccess = true;
     } else {
         $isSuccess = false;
     }
-
-    return $isSuccess;
+    $list['isSuccess'] = $isSuccess;
+    $list['kode_diagnosa'] = $kode_diagnosa;
+    return $list;
 }
 
 function updateDiagnosa($db, $kode_diagnosa, $nama_diagnosa, $keterangan) {
@@ -78,6 +80,15 @@ function getAllListGejalaWithDiagnosa($db, $kode_diagnosa) {
 
 function updateGejala($db, $kode_gejala, $nama_gejala, $keterangan) {
     if (mysqli_query($db, "UPDATE cf_gejala SET nama_gejala='$nama_gejala', keterangan='$keterangan' WHERE kode_gejala='$kode_gejala'") == true) {
+        $isSuccess = true;
+    } else {
+        $isSuccess = false;
+    }
+    return $isSuccess;
+}
+
+function addRelasi($db, $kode_diagnosa, $kode_gejala, $mb, $md) {
+    if (mysqli_query($db, "INSERT INTO cf_relasi (kode_diagnosa, kode_gejala, mb, md) VALUES ('$kode_diagnosa', '$kode_gejala', '$mb', '$md')") == true) {
         $isSuccess = true;
     } else {
         $isSuccess = false;

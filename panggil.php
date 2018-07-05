@@ -10,11 +10,10 @@
         die("Koneksi gagal: " . mysqli_connect_error());
     }
     include "api/UserController.php";
-//    include "api/KonsultasiController.php";
     include "api/DiagnosaController.php";
 
     $response = array();
-    $list_command = ["login", "register", "getAllDiagnosa", "addDiagnosa", "updateDiagnosa", "getAllGejala", "getAllGejalaWithDiagnosa", "updateGejala"];
+    $list_command = ["login", "register", "getAllDiagnosa", "addDiagnosa", "updateDiagnosa", "getAllGejala", "getAllGejalaWithDiagnosa", "updateGejala", "submitKonsultasi", "addRelasi"];
     if(isset($_GET["panggil"])) {
         switch($_GET["panggil"]) {
             case 'login':
@@ -60,10 +59,13 @@
                 $isAPI = true;
                 include 'api/KonsultasiController.php';
                 $response = $list;
+                // $response['gejala_temp'] = $gejala_temp;
+                break;
+            case 'addRelasi':
+                $result = addRelasi($db, $_POST['kode_diagnosa'], $_POST['kode_gejala'], $_POST['mb'], $_POST['md']);
+                $response['isSuccess'] = $result;
                 break;
         }
     }
 
     echo json_encode($response);
-
-
