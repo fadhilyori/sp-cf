@@ -23,11 +23,6 @@
     // }
 
     function register($db, $username, $password) {
-        if (mysqli_query($db, "INSERT INTO cf_admin (user, pass, level) VALUES ('$username', '$password', 'user')") == true) {
-            $isSuccess = true;
-        } else {
-            $isSuccess = false;
-        }
-
-        return $isSuccess;
+        mysqli_query($db, "INSERT INTO cf_admin (user, pass, level) VALUES ('$username', '$password', 'user')");
+        return true;
     }

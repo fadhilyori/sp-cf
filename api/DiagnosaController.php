@@ -20,24 +20,20 @@ function getAllListDiagnosa($db) {
 }
 
 function addDiagnosa($db, $kode_diagnosa, $nama_diagnosa, $keterangan) {
-    $list = array();
-    if (mysqli_query($db, "INSERT INTO cf_diagnosa (kode_diagnosa, nama_diagnosa, keterangan) VALUES ('$kode_diagnosa', '$nama_diagnosa', '$keterangan')") == true) {
-        $isSuccess = true;
-    } else {
-        $isSuccess = false;
+    if ($kode_diagnosa == null) {
+        throw new Exception("null at kode diagnosa");
+    } else if ($nama_diagnosa == null) {
+        throw new Exception("null at nama diagnosa");
+    } else if ($keterangan == null) {
+        throw new Exception("null at keterangan");
     }
-    $list['isSuccess'] = $isSuccess;
-    $list['kode_diagnosa'] = $kode_diagnosa;
-    return $list;
+    mysqli_query($db, "INSERT INTO cf_diagnosa (kode_diagnosa, nama_diagnosa, keterangan) VALUES ('$kode_diagnosa', '$nama_diagnosa', '$keterangan')");
+    return true;
 }
 
 function updateDiagnosa($db, $kode_diagnosa, $nama_diagnosa, $keterangan) {
-    if (mysqli_query($db, "UPDATE cf_diagnosa SET nama_diagnosa='$nama_diagnosa', keterangan='$keterangan' WHERE kode_diagnosa='$kode_diagnosa'") == true) {
-        $isSuccess = true;
-    } else {
-        $isSuccess = false;
-    }
-    return $isSuccess;
+    mysqli_query($db, "UPDATE cf_diagnosa SET nama_diagnosa='$nama_diagnosa', keterangan='$keterangan' WHERE kode_diagnosa='$kode_diagnosa'");
+    return true;
 }
 
 function getAllListGejala($db) {
@@ -78,22 +74,26 @@ function getAllListGejalaWithDiagnosa($db, $kode_diagnosa) {
     return $list_gejala;
 }
 
-function updateGejala($db, $kode_gejala, $nama_gejala, $keterangan) {
-    if (mysqli_query($db, "UPDATE cf_gejala SET nama_gejala='$nama_gejala', keterangan='$keterangan' WHERE kode_gejala='$kode_gejala'") == true) {
-        $isSuccess = true;
-    } else {
-        $isSuccess = false;
+function getGejalaWithKodeGejala($db, $kode_gejala) {
+    $gejala_obj = array();
+    $result_gejala_detail = mysqli_query($db,"SELECT * FROM cf_gejala WHERE kode_gejala='$kode_gejala'");
+    if (mysqli_num_rows($result_gejala_detail) > 0) {
+        while ($row_gejala_obj = mysqli_fetch_array($result_gejala_detail)) {
+            $gejala_obj["nama_gejala"] = $row_gejala_obj["nama_gejala"];
+            $gejala_obj["keterangan"] = $row_gejala_obj["keterangan"];
+        }
     }
-    return $isSuccess;
+    return $gejala_obj;
+}
+
+function updateGejala($db, $kode_gejala, $nama_gejala, $keterangan) {
+    mysqli_query($db, "UPDATE cf_gejala SET nama_gejala='$nama_gejala', keterangan='$keterangan' WHERE kode_gejala='$kode_gejala'");
+    return true;
 }
 
 function addRelasi($db, $kode_diagnosa, $kode_gejala, $mb, $md) {
-    if (mysqli_query($db, "INSERT INTO cf_relasi (kode_diagnosa, kode_gejala, mb, md) VALUES ('$kode_diagnosa', '$kode_gejala', '$mb', '$md')") == true) {
-        $isSuccess = true;
-    } else {
-        $isSuccess = false;
-    }
-    return $isSuccess;
+    mysqli_query($db, "INSERT INTO cf_relasi (kode_diagnosa, kode_gejala, mb, md) VALUES ('$kode_diagnosa', '$kode_gejala', '$mb', '$md')");
+    return true;
 }
 
 // -----------RETURN-----------

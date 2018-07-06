@@ -27,16 +27,30 @@
                 $response["level"] = $result;
                 break;
             case 'register':
-                $result = register($db, $_POST['username'], $_POST['password']);
-                $response["isSuccess"] = $result;
+                try {
+                    $result = register($db, $_POST['username'], $_POST['password']);
+                    $response["isSuccess"] = $result;
+                } catch (Exception $e) {
+                    $response["isSuccess"] = false;
+                }
                 break;
             case 'getAllDiagnosa':
                 $result = getAllListDiagnosa($db);
                 $response = $result;
                 break;
             case 'addDiagnosa':
-                $result = addDiagnosa($db, $_POST['kode_diagnosa'], $_POST['nama_diagnosa'], $_POST['keterangan']);
-                $response["isSuccess"] = $result;
+                try {
+                    $result = addDiagnosa($db, $_POST['kode_diagnosa'], $_POST['nama_diagnosa'], $_POST['keterangan']);
+                    $response["isSuccess"] = $result;
+                    if ($result) {
+                        $response["kode_diagnosa"] = $_POST['kode_diagnosa'];
+                    } else {
+                        $response["error"] = "kode diagnosa kembar";
+                    }
+                } catch (Exception $e) {
+                    $response["isSuccess"] = false;
+                    $response["error"] = $e->getMessage();
+                }
                 break;
             case 'updateDiagnosa':
                 $result = updateDiagnosa($db, $_POST['kode_diagnosa'], $_POST['nama_diagnosa'], $_POST['keterangan']);
@@ -64,6 +78,10 @@
             case 'addRelasi':
                 $result = addRelasi($db, $_POST['kode_diagnosa'], $_POST['kode_gejala'], $_POST['mb'], $_POST['md']);
                 $response['isSuccess'] = $result;
+                $response['kode_gejala'] = $_POST['kode_gejala'];
+                $result2 = getGejalaWithKodeGejala($db, $_POST['kode_gejala']);
+                $response['nama_gejala'] = $result2['nama_gejala'];
+                $response['keterangan'] = $result2['keterangan'];
                 break;
         }
     }
