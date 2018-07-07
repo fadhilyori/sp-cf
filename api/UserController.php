@@ -8,13 +8,17 @@
 
     function login($db, $username, $password) {
         $result = mysqli_query($db, "SELECT * FROM cf_admin WHERE user='$username' AND pass='$password'");
+        $response = [];
         if (mysqli_fetch_array($result) > 0) {
-            $result_level = mysqli_query($db, "SELECT level FROM cf_admin WHERE user='$username' AND pass='$password'");
-            $level = mysqli_fetch_array($result_level)[0];
+            $result = mysqli_query($db, "SELECT * FROM cf_admin WHERE user='$username' AND pass='$password'");
+            $q = mysqli_fetch_array($result);
+            array_push($response, $q['user']);
+            array_push($response, $q['pass']);
+            array_push($response, $q['level']);
         } else {
-            $level = "";
+            $response = "";
         }
-        return $level;
+        return $response;
     }
 
     // -----------RETURN-----------
@@ -23,6 +27,6 @@
     // }
 
     function register($db, $username, $password) {
-        mysqli_query($db, "INSERT INTO cf_admin (user, pass, level) VALUES ('$username', '$password', 'user')");
-        return true;
+        $result = mysqli_query($db, "INSERT INTO cf_admin (user, pass, level) VALUES ('$username', '$password', 'user')");
+        return $result;
     }

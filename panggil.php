@@ -24,7 +24,11 @@
                     $isSuccess = true;
                 }
                 $response["isSuccess"] = $isSuccess;
-                $response["level"] = $result;
+                if ($isSuccess) {
+                    $response["username"] = $result[0];
+                    $response["password"] = $result[1];
+                    $response["level"] = $result[2];
+                }
                 break;
             case 'register':
                 try {
@@ -78,10 +82,12 @@
             case 'addRelasi':
                 $result = addRelasi($db, $_POST['kode_diagnosa'], $_POST['kode_gejala'], $_POST['mb'], $_POST['md']);
                 $response['isSuccess'] = $result;
-                $response['kode_gejala'] = $_POST['kode_gejala'];
-                $result2 = getGejalaWithKodeGejala($db, $_POST['kode_gejala']);
-                $response['nama_gejala'] = $result2['nama_gejala'];
-                $response['keterangan'] = $result2['keterangan'];
+                if ($result) {
+                    $response['kode_gejala'] = $_POST['kode_gejala'];
+                    $result2 = getGejalaWithKodeGejala($db, $_POST['kode_gejala']);
+                    $response['nama_gejala'] = $result2['nama_gejala'];
+                    $response['keterangan'] = $result2['keterangan'];
+                }
                 break;
         }
     }

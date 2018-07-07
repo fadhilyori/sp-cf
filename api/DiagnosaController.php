@@ -92,6 +92,10 @@ function updateGejala($db, $kode_gejala, $nama_gejala, $keterangan) {
 }
 
 function addRelasi($db, $kode_diagnosa, $kode_gejala, $mb, $md) {
+    $result = mysqli_query($db, "SELECT * FROM cf_relasi WHERE kode_diagnosa='$kode_diagnosa' AND kode_gejala='$kode_gejala'");
+    if (mysqli_num_rows($result) > 0) {
+        return false;
+    }
     mysqli_query($db, "INSERT INTO cf_relasi (kode_diagnosa, kode_gejala, mb, md) VALUES ('$kode_diagnosa', '$kode_gejala', '$mb', '$md')");
     return true;
 }
