@@ -9,7 +9,7 @@
             <input class="form-control" type="text" placeholder="Pencarian. . ." name="q" value="<?=$_GET['q']?>" />
         </div>
         <div class="form-group">
-            <button class="btn btn-success"><span class="glyphicon glyphicon-refresh"></span> Refresh</a>
+            <button class="btn btn-success"><span class="glyphicon glyphicon-refresh"></span> Refresh</a></button>
         </div>
         <div class="form-group">
             <a class="btn btn-primary" href="?m=relasi_tambah"><span class="glyphicon glyphicon-plus"></span> Tambah</a>
@@ -30,13 +30,7 @@
 </thead>
 <?php
 $q = esc_field($_GET['q']);
-$rows = $db->get_results("SELECT r.ID, r.kode_gejala, d.kode_diagnosa, r.mb, r.md, g.nama_gejala, d.nama_diagnosa 
-    FROM cf_relasi r INNER JOIN cf_diagnosa d ON d.`kode_diagnosa`=r.`kode_diagnosa` INNER JOIN cf_gejala g ON g.`kode_gejala`=r.`kode_gejala`
-    WHERE r.kode_gejala LIKE '%$q%'
-        OR r.kode_diagnosa LIKE '%$q%'
-        OR g.nama_gejala LIKE '%$q%'
-        OR d.nama_diagnosa LIKE '%$q%' 
-    ORDER BY r.kode_diagnosa, r.kode_gejala");
+$rows = $db->get_results("SELECT r.ID, r.kode_gejala, d.kode_diagnosa, r.mb, r.md, g.nama_gejala, d.nama_diagnosa FROM cf_relasi r INNER JOIN cf_diagnosa d ON d.`kode_diagnosa`=r.`kode_diagnosa` INNER JOIN cf_gejala g ON g.`kode_gejala`=r.`kode_gejala` WHERE r.kode_gejala LIKE '%$q%' OR r.kode_diagnosa LIKE '%$q%' OR g.nama_gejala LIKE '%$q%' OR d.nama_diagnosa LIKE '%$q%' ORDER BY r.kode_diagnosa, r.kode_gejala");
 $no=0;
 
 foreach($rows as $row):?>

@@ -96,7 +96,21 @@ function addRelasi($db, $kode_diagnosa, $kode_gejala, $mb, $md) {
     if (mysqli_num_rows($result) > 0) {
         return false;
     }
-    mysqli_query($db, "INSERT INTO cf_relasi (kode_diagnosa, kode_gejala, mb, md) VALUES ('$kode_diagnosa', '$kode_gejala', '$mb', '$md')");
+    if ($mb == null or $md == null) {
+        return false;
+    }
+    $result = mysqli_query($db, "INSERT INTO cf_relasi (kode_diagnosa, kode_gejala, mb, md) VALUES ('$kode_diagnosa', '$kode_gejala', '$mb', '$md')");
+    return $result;
+}
+
+function delRelasi($db, $kode_diagnosa, $kode_gejala) {
+    $result = mysqli_query($db, "SELECT * FROM cf_relasi WHERE kode_diagnosa='$kode_diagnosa' AND kode_gejala='$kode_gejala'");
+    if (mysqli_num_rows($result) > 0) {
+        $result = mysqli_query($db, "DELETE FROM cf_relasi WHERE kode_diagnosa='$kode_diagnosa' AND kode_gejala='$kode_gejala'");
+    }
+    if ($result != true) {
+        return false;
+    }
     return true;
 }
 

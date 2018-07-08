@@ -89,6 +89,16 @@
                     $response['keterangan'] = $result2['keterangan'];
                 }
                 break;
+            case 'deleteRelasi':
+                $result = delRelasi($db, $_POST['kode_diagnosa'], $_POST['kode_gejala']);
+                $response['isSuccess'] = $result;
+                if ($result) {
+                    $response['kode_gejala'] = $_POST['kode_gejala'];
+                    $result2 = getGejalaWithKodeGejala($db, $_POST['kode_gejala']);
+                    $response['nama_gejala'] = $result2['nama_gejala'];
+                    $response['keterangan'] = $result2['keterangan'];
+                }
+                break;
         }
     }
 
